@@ -4,13 +4,13 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import Connect from "./pages/Connect";
 import Bots from "./pages/Bots";
 import Slots from "./pages/Slots";
 
 function App() {
-  const newSlot = useSelector((state) => state.adi.newSlot);
+  // const newSlot = useSelector((state) => state.adi.newSlot);
 
   return (
     <Router>
