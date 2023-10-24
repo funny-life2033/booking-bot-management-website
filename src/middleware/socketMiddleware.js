@@ -117,6 +117,9 @@ export default function socketMiddleware(socket) {
         // dispatch(adiDeclinedSlot(payload.slot.botId));
         break;
       }
+      default: {
+        break;
+      }
     }
 
     return next(action);
