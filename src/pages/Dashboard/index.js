@@ -1,5 +1,5 @@
 import { NavigateNext } from "@mui/icons-material";
-import { Box, Button, ThemeProvider, createTheme } from "@mui/material";
+import { Box, ThemeProvider, createTheme } from "@mui/material";
 import { blue, yellow } from "@mui/material/colors";
 
 const theme = createTheme({
