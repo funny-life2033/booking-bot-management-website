@@ -11,7 +11,7 @@ import {
   newReservedSlotAlert as adiNewReservedSlotAlert,
   initAdiBots,
 } from "../store/adiSlice";
-import { connected, connectFailed } from "../store/authSlice";
+import { connected, connectFailed, getUsers } from "../store/authSlice";
 
 export default function socketMiddleware(socket) {
   return (params) => (next) => (action) => {
@@ -25,8 +25,11 @@ export default function socketMiddleware(socket) {
         socket.on(
           "app connect success",
           ({ connectedAdiBots, connectedStudentBots }) => {
+            console.log("app connect success");
+            socket.isConnected = true;
             dispatch(connected());
             dispatch(setAdiBots(connectedAdiBots));
+            dispatch(getUsers());
           }
         );
 
@@ -79,7 +82,9 @@ export default function socketMiddleware(socket) {
           dispatch(adiNewReservedSlotAlert({ botId, text }));
         });
 
-        socket.emit("app connect");
+        socket.on("connect", () => {
+          socket.emit("app connect");
+        });
 
         break;
       }

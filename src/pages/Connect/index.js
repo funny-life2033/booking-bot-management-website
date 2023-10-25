@@ -18,7 +18,7 @@ const Connect = () => {
 
   useEffect(() => {
     if (isConnected) {
-      navigate("bots");
+      navigate("/home");
     }
   }, [isConnected, navigate]);
 

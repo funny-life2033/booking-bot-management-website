@@ -3,6 +3,7 @@ import { WEB_SOCKET_HOST } from "./config";
 
 export default class SocketClient {
   socket;
+  isConnected = false;
 
   connect() {
     console.log("start connecting..");
@@ -22,7 +23,7 @@ export default class SocketClient {
 
       this.socket.on("disconnect", (e) => {
         console.log("disconnected: ", e);
-        this.connect();
+        if (this.isConnected) this.connect();
       });
 
       this.socket.on("connect", () => {
@@ -36,6 +37,7 @@ export default class SocketClient {
 
   disconnect() {
     if (this.socket) {
+      this.isConnected = false;
       this.socket.disconnect();
       this.socket = null;
     }

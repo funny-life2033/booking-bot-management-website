@@ -1,14 +1,23 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { Axios } from "../utils/config";
 
-const initialState = {
-  isConnected: false,
-  error: null,
-  isLoading: false,
-};
+export const getUsers = createAsyncThunk("getUsers", async () => {
+  try {
+    const res = await Axios.get("/");
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 const userSlice = createSlice({
   name: "user",
-  initialState,
+  initialState: {
+    isConnected: false,
+    error: null,
+    isLoading: false,
+    users: [],
+  },
   reducers: {
     connect: (state) => {
       state.error = null;
