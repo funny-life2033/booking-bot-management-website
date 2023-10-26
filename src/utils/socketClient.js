@@ -23,8 +23,7 @@ export default class SocketClient {
 
       this.socket.on("disconnect", (e) => {
         console.log("disconnected: ", e);
-        if (this.isConnected) this.socket.connect();
-        else this.socket = null;
+        if (!this.isConnected) this.socket = null;
       });
 
       this.socket.on("connect", () => {
