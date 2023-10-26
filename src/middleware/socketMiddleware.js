@@ -11,7 +11,7 @@ import {
   newReservedSlotAlert as adiNewReservedSlotAlert,
   initAdiBots,
 } from "../store/adiSlice";
-import { connected, connectFailed, getUsers } from "../store/authSlice";
+import { connected, connectFailed, getClients } from "../store/authSlice";
 
 export default function socketMiddleware(socket) {
   return (params) => (next) => (action) => {
@@ -29,7 +29,7 @@ export default function socketMiddleware(socket) {
             socket.isConnected = true;
             dispatch(connected());
             dispatch(setAdiBots(connectedAdiBots));
-            dispatch(getUsers());
+            dispatch(getClients());
           }
         );
 
@@ -37,36 +37,36 @@ export default function socketMiddleware(socket) {
           dispatch(connectFailed(err));
         });
 
-        socket.on("adi bot connect", (botId) => {
-          dispatch(adiBotConnected(botId));
+        socket.on("adi bot connect", (username) => {
+          dispatch(adiBotConnected(username));
         });
 
-        socket.on("adi bot disconnect", (botId) => {
-          console.log("adi bot disconnect ", botId);
-          dispatch(adiBotDisconnected(botId));
+        socket.on("adi bot disconnect", (username) => {
+          console.log("adi bot disconnect ", username);
+          dispatch(adiBotDisconnected(username));
         });
 
-        socket.on("adi bot started", ({ botId }) => {
-          dispatch(startedAdiBot(botId));
+        socket.on("adi bot started", ({ username }) => {
+          dispatch(startedAdiBot(username));
         });
 
-        socket.on("adi bot stopped", ({ botId }) => {
-          dispatch(stoppedAdiBot(botId));
+        socket.on("adi bot stopped", ({ username }) => {
+          dispatch(stoppedAdiBot(username));
         });
 
-        socket.on("adi accepted slot", ({ botId }) => {
-          dispatch(adiAcceptedSlot(botId));
+        socket.on("adi accepted slot", ({ username }) => {
+          dispatch(adiAcceptedSlot(username));
         });
 
-        socket.on("adi declined slot", ({ botId }) => {
-          dispatch(adiDeclinedSlot(botId));
+        socket.on("adi declined slot", ({ username }) => {
+          dispatch(adiDeclinedSlot(username));
         });
 
         socket.on(
           "adi bot reserved slots",
-          ({ botId, isWorking, reservedSlots }) => {
-            dispatch(adiSetIsWorking({ botId, isWorking }));
-            dispatch(setAdiReservedSlots({ botId, reservedSlots }));
+          ({ username, isWorking, reservedSlots }) => {
+            dispatch(adiSetIsWorking({ username, isWorking }));
+            dispatch(setAdiReservedSlots({ username, reservedSlots }));
           }
         );
 
@@ -78,8 +78,8 @@ export default function socketMiddleware(socket) {
           console.log("error alert", data);
         });
 
-        socket.on("alert", ({ botId, text, slots }) => {
-          dispatch(adiNewReservedSlotAlert({ botId, text }));
+        socket.on("alert", ({ username, text, slots }) => {
+          dispatch(adiNewReservedSlotAlert({ username, text }));
         });
 
         socket.on("connect", () => {
@@ -104,22 +104,22 @@ export default function socketMiddleware(socket) {
       }
       case "adi/acceptSlot": {
         // console.log({
-        //   to: payload.botId,
+        //   to: payload.username,
         //   ...payload.slot,
         // });
         socket.emit("message", "adi accept slot", {
-          to: payload.slot.botId,
+          to: payload.slot.username,
           ...payload.slot,
         });
         break;
       }
       case "adi/declineSlot": {
         socket.emit("message", "adi decline slot", {
-          to: payload.slot.botId,
+          to: payload.slot.username,
           ...payload.slot,
         });
 
-        // dispatch(adiDeclinedSlot(payload.slot.botId));
+        // dispatch(adiDeclinedSlot(payload.slot.username));
         break;
       }
       default: {

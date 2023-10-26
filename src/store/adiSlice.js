@@ -15,7 +15,7 @@ const adiSlice = createSlice({
     },
     setIsWorking: (state, { payload }) => {
       if (state.bots[payload])
-        state.bots[payload.botId].isWorking = payload.isWorking;
+        state.bots[payload.username].isWorking = payload.isWorking;
     },
     startBot: (state, { payload }) => {
       if (state.bots[payload]) state.bots[payload].isStarting = true;
@@ -36,19 +36,19 @@ const adiSlice = createSlice({
       }
     },
     setBots: (state, { payload }) => {
-      for (let botId of payload) {
-        state.bots[botId] = { reservedSlots: [] };
+      for (let username of payload) {
+        state.bots[username] = { reservedSlots: [] };
       }
     },
     setReservedSlots: (state, { payload }) => {
-      const { botId, reservedSlots } = payload;
-      if (state.bots[botId]) {
-        state.bots[botId].reservedSlots = reservedSlots;
+      const { username, reservedSlots } = payload;
+      if (state.bots[username]) {
+        state.bots[username].reservedSlots = reservedSlots;
       }
     },
     newReservedSlotAlert: (state, { payload }) => {
-      const { botId, text } = payload;
-      state.newSlot = { botId, text };
+      const { username, text } = payload;
+      state.newSlot = { username, text };
     },
     botConnected: (state, { payload }) => {
       state.bots[payload] = { reservedSlots: [] };
@@ -57,17 +57,17 @@ const adiSlice = createSlice({
       delete state.bots[payload];
     },
     acceptSlot: (state, { payload }) => {
-      const { botId, slot } = payload;
-      if (state.bots[botId]) {
-        state.bots[botId].acceptingSlot = slot;
+      const { username, slot } = payload;
+      if (state.bots[username]) {
+        state.bots[username].acceptingSlot = slot;
       }
     },
     declineSlot: (state, { payload }) => {
       const { slot } = payload;
-      // console.log(botId, slot);
-      if (state.bots[slot.botId]) {
-        state.bots[slot.botId].reservedSlots = state.bots[
-          slot.botId
+      // console.log(username, slot);
+      if (state.bots[slot.username]) {
+        state.bots[slot.username].reservedSlots = state.bots[
+          slot.username
         ].reservedSlots.filter((reservedSlot) => {
           return (
             slot.category !== reservedSlot.category ||
