@@ -82,10 +82,6 @@ export default function socketMiddleware(socket) {
           dispatch(adiNewReservedSlotAlert({ username, text }));
         });
 
-        socket.on("connect", () => {
-          socket.emit("app connect");
-        });
-
         break;
       }
       case "user/disconnect": {
