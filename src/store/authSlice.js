@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Axios } from "../utils/config";
+import { Axios, checkPageStatus } from "../utils/config";
 
 export const getClients = createAsyncThunk("getClients", async () => {
   try {
@@ -80,6 +80,7 @@ const userSlice = createSlice({
       } else {
         state.clients = [...state.clients, payload];
         state.registeringClientError = null;
+        checkPageStatus();
       }
     },
   },

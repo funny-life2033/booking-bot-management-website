@@ -1,8 +1,7 @@
-import { Box, Button, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, Button, CircularProgress, TextField } from "@mui/material";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerClient } from "../../store/authSlice";
-import { checkPageStatus } from "../../utils/config";
 
 const AddNewAccount = () => {
   const dispatch = useDispatch();
@@ -18,15 +17,9 @@ const AddNewAccount = () => {
     e.preventDefault();
 
     dispatch(registerClient({ username, password }));
+    setUsername("");
+    setPassword("");
   };
-
-  useEffect(() => {
-    if (!isRegisteringClient) {
-      if (!registeringClientError) {
-        checkPageStatus("hi");
-      }
-    }
-  }, [isRegisteringClient, registeringClientError]);
 
   return (
     <form onSubmit={registerHandle}>
@@ -59,7 +52,18 @@ const AddNewAccount = () => {
           helperText={registeringClientError}
         />
 
-        <Button type="submit" variant="contained">
+        <Button
+          type="submit"
+          variant="contained"
+          disabled={isRegisteringClient}
+          startIcon={
+            isRegisteringClient ? (
+              <CircularProgress size={20} color="inherit" />
+            ) : (
+              ""
+            )
+          }
+        >
           Add Account
         </Button>
       </Box>
