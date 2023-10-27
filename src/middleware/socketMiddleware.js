@@ -66,6 +66,7 @@ export default function socketMiddleware(socket) {
         });
 
         socket.on("adi accept slot", (slot) => {
+          console.log("adi accept slot");
           dispatch(adiAcceptSlot({ slot }));
         });
 
