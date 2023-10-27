@@ -2,7 +2,6 @@ import { Box, Button, CircularProgress, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerClient } from "../../store/authSlice";
-import { checkPageStatus } from "../../utils/config";
 import addNotification from "react-push-notification";
 
 const AddNewAccount = () => {
