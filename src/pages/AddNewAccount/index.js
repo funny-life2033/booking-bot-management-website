@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerClient } from "../../store/authSlice";
 import { checkPageStatus } from "../../utils/config";
+import addNotification from "react-push-notification";
 
 const AddNewAccount = () => {
   const dispatch = useDispatch();
@@ -15,7 +16,12 @@ const AddNewAccount = () => {
 
   useEffect(() => {
     if (newRegisteredClient) {
-      checkPageStatus("Successfully Registered!");
+      addNotification({
+        title: "Success",
+        subtitle: "Registered Successfully!",
+        message: newRegisteredClient,
+        native: true,
+      });
     }
   }, [newRegisteredClient]);
 
