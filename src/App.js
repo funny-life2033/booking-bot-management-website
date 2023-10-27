@@ -14,9 +14,36 @@ import AIAssist from "./pages/AIAssist";
 import History from "./pages/History";
 import Help from "./pages/Help";
 import Header from "./layout/Header";
+import { useEffect } from "react";
+import addNotification from "react-push-notification";
+import { useDispatch } from "react-redux";
+import { alertedError, alertedNewSlot } from "./store/adiSlice";
 
 function App() {
-  // const newSlot = useSelector((state) => state.adi.newSlot);
+  const dispatch = useDispatch();
+  const { newSlot, error } = useSelector((state) => state.adi);
+
+  useEffect(() => {
+    if (newSlot) {
+      addNotification({
+        title: "New slot is reserved",
+        native: true,
+      });
+
+      dispatch(alertedNewSlot());
+    }
+  }, [newSlot, dispatch]);
+
+  useEffect(() => {
+    if (error) {
+      addNotification({
+        title: error,
+        theme: "red",
+        native: true,
+      });
+    }
+    dispatch(alertedError());
+  }, [error, dispatch]);
 
   return (
     <Router>

@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   bots: {},
   newSlot: null,
+  error: null,
 };
 
 const adiSlice = createSlice({
@@ -45,6 +46,9 @@ const adiSlice = createSlice({
       if (state.bots[username]) {
         state.bots[username].reservedSlots = reservedSlots;
       }
+    },
+    alertedNewSlot: (state) => {
+      state.newSlot = null;
     },
     newReservedSlotAlert: (state, { payload }) => {
       const { username, text } = payload;
@@ -104,10 +108,17 @@ const adiSlice = createSlice({
         state.bots[payload].decliningSlot = null;
       }
     },
+    errorAlert: (state, { payload }) => {
+      state.error = payload;
+    },
+    alertedError: (state) => {
+      state.error = null;
+    },
   },
 });
 
 export const {
+  alertedNewSlot,
   initAdiBots,
   startBot,
   startedBot,
@@ -123,5 +134,7 @@ export const {
   botDisconnected,
   setIsWorking,
   newReservedSlotAlert,
+  errorAlert,
+  alertedError,
 } = adiSlice.actions;
 export default adiSlice.reducer;

@@ -10,6 +10,7 @@ import {
   setIsWorking as adiSetIsWorking,
   newReservedSlotAlert as adiNewReservedSlotAlert,
   initAdiBots,
+  errorAlert,
 } from "../store/adiSlice";
 import { connected, connectFailed, getClients } from "../store/authSlice";
 
@@ -74,8 +75,9 @@ export default function socketMiddleware(socket) {
           dispatch(setAdiReservedSlots(data));
         });
 
-        socket.on("error alert", (data) => {
-          console.log("error alert", data);
+        socket.on("error alert", ({ error }) => {
+          console.log("error alert", error);
+          dispatch(errorAlert(error));
         });
 
         socket.on("alert", ({ username, text, slots }) => {
