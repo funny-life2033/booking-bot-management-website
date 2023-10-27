@@ -1,4 +1,5 @@
 import {
+  acceptSlot as adiAcceptSlot,
   acceptedSlot as adiAcceptedSlot,
   botConnected as adiBotConnected,
   botDisconnected as adiBotDisconnected,
@@ -62,6 +63,10 @@ export default function socketMiddleware(socket) {
 
         socket.on("adi declined slot", ({ username }) => {
           dispatch(adiDeclinedSlot(username));
+        });
+
+        socket.on("adi accept slot", (slot) => {
+          dispatch(adiAcceptSlot({ slot }));
         });
 
         socket.on("adi decline slot", (slot) => {
