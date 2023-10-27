@@ -107,7 +107,9 @@ const Dashboard = () => {
                     </Button>
                   </TableCell>
                   <TableCell>
-                    <Button>
+                    <Button
+                      color={adiBots[client.username] ? "primary" : "error"}
+                    >
                       {adiBots[client.username] ? "active" : "inactive"}
                     </Button>
                   </TableCell>

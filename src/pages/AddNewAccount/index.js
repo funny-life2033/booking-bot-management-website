@@ -1,7 +1,8 @@
 import { Box, Button, CircularProgress, TextField } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerClient } from "../../store/authSlice";
+import { checkPageStatus } from "../../utils/config";
 
 const AddNewAccount = () => {
   const dispatch = useDispatch();
@@ -9,9 +10,14 @@ const AddNewAccount = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const { isRegisteringClient, registeringClientError } = useSelector(
-    (state) => state.user
-  );
+  const { isRegisteringClient, registeringClientError, newRegisteredClient } =
+    useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (newRegisteredClient) {
+      checkPageStatus("Successfully Registered!");
+    }
+  }, [newRegisteredClient]);
 
   const registerHandle = (e) => {
     e.preventDefault();

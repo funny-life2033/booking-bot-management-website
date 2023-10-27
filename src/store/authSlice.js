@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Axios, checkPageStatus } from "../utils/config";
+import { Axios } from "../utils/config";
 
 export const getClients = createAsyncThunk("getClients", async () => {
   try {
@@ -37,6 +37,7 @@ const userSlice = createSlice({
     isGettingClients: false,
     isRegisteringClient: false,
     registeringClientError: null,
+    newRegisteredClient: null,
   },
   reducers: {
     connect: (state) => {
@@ -53,6 +54,9 @@ const userSlice = createSlice({
     },
     disconnect: (state) => {
       state.isConnected = false;
+    },
+    alertedNewClient: (state) => {
+      state.newRegisteredClient = null;
     },
   },
   extraReducers: {
@@ -78,14 +82,20 @@ const userSlice = createSlice({
       if (payload.error) {
         state.registeringClientError = payload.error;
       } else {
+        state.newRegisteredClient = payload;
         state.clients = [...state.clients, payload];
         state.registeringClientError = null;
-        checkPageStatus();
       }
     },
   },
 });
 
-export const { connect, connected, connectFailed, initError, disconnect } =
-  userSlice.actions;
+export const {
+  connect,
+  connected,
+  connectFailed,
+  initError,
+  disconnect,
+  alertedNewClient,
+} = userSlice.actions;
 export default userSlice.reducer;
