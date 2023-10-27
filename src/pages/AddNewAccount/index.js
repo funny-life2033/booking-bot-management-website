@@ -23,7 +23,7 @@ const AddNewAccount = () => {
       });
       dispatch(alertedNewClient());
     }
-  }, [newRegisteredClient]);
+  }, [newRegisteredClient, dispatch]);
 
   const registerHandle = (e) => {
     e.preventDefault();
