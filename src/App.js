@@ -4,7 +4,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Box, Toolbar } from "@mui/material";
 import Connect from "./pages/Connect";
 import Home from "./pages/Home";
