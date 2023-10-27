@@ -1,7 +1,7 @@
 import { Box, Button, CircularProgress, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { registerClient } from "../../store/authSlice";
+import { alertedNewClient, registerClient } from "../../store/authSlice";
 import addNotification from "react-push-notification";
 
 const AddNewAccount = () => {
@@ -16,11 +16,12 @@ const AddNewAccount = () => {
   useEffect(() => {
     if (newRegisteredClient) {
       addNotification({
-        title: "Success",
-        subtitle: "Registered Successfully!",
-        message: newRegisteredClient,
+        title: "Registered Successfully!",
+        subtitle: "subtitle",
+        message: "message",
         native: true,
       });
+      dispatch(alertedNewClient());
     }
   }, [newRegisteredClient]);
 
